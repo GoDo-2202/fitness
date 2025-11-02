@@ -1,7 +1,10 @@
 import 'package:fitness/models/category_model.dart';
-import 'package:fitness/pages/detail/detail_food.dart';
 import 'package:fitness/pages/home/widgets/category_cell.dart';
+import 'package:fitness/pages/recipe/controllers/recipes_controller.dart';
+import 'package:fitness/pages/recipe/recipe_page.dart';
+import 'package:fitness/services/api_service.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CategorySection extends StatelessWidget {
   final List<CategoryModel> categories;
@@ -23,9 +26,14 @@ class CategorySection extends StatelessWidget {
           return GestureDetector(
             onTap: () {
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (_) => DetailFood(category: item)));
+                context,
+                MaterialPageRoute(
+                  builder: (_) => ChangeNotifierProvider(
+                    create: (_) => RecipesController(api: SpoonacularApi()),
+                    child: const RecipePage(),
+                  ),
+                ),
+              );
             },
             child: CategoryCell(category: item),
           );
